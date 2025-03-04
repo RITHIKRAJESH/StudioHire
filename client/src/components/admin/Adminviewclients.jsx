@@ -25,7 +25,7 @@ export default function Adminviewclients() {
   // Handle client deletion
   const handleDelete = async (clientId) => {
     try {
-      const response = await axios.delete(`http://localhost:8500/admin/deleteclient`, {
+      const response = await axios.delete(`http://localhost:8500/admin/deleteUser`, {
         headers: { _id: clientId }
       });
       alert(response.data); // Show alert with the response message
