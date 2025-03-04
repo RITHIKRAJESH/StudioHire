@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel'); 
 const Project=require('../models/projectModel')
 const Complaint = require('../models/complaintModel'); 
+const Work=require('../models/workModel')
+
 // User registration
 const register = async (req, res) => {
     try {
@@ -197,5 +199,42 @@ const registerComplaint = async (req, res) => {
     }
 };
 
-module.exports = { registerComplaint, register, login, viewProfile, bookproject, viewBooking, viewBookingClient, updatebooking, booking };
+
+const addPhotos = async (req, res) => {
+    try {
+        const userId = req.headers.id;
+        const { description } = req.body;
+        const images = req.files.image[0].path
+
+        if (!userId) {
+            return res.status(400).json({ msg: 'User ID is missing from headers' });
+        }
+
+        if (!images) {
+            return res.status(400).json({ msg: 'Photo is missing' });
+        }
+
+        const newPhoto =await Work({
+            userId,
+            images,
+            description
+        });
+        await newPhoto.save()
+        res.status(200).json({ msg: "Photo added successfully", newPhoto });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ msg: 'Server error' });
+    }
+};
+
+const viewPhotoUser=async(req,res)=>{
+    const id=req.headers.id
+    const photos=await Work.find({userId:id})
+    res.json(photos)
+}
+const viewPhotos=async(req,res)=>{
+    const photos=await Work.find()
+    res.json(photos)
+}
+module.exports = { viewPhotos,viewPhotoUser,registerComplaint, register, login, viewProfile, bookproject, viewBooking, viewBookingClient, updatebooking, booking,addPhotos };
 

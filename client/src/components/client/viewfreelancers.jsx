@@ -9,14 +9,20 @@ export default function Viewfreelancers() {
   const [show, setShow] = useState(false);
   const [selectedFreelancer, setSelectedFreelancer] = useState(null);
   const [projectDetails, setProjectDetails] = useState({ projectName: '', startDate: '', endDate: '', userId: '' });
-   const [booking,setBooking]=useState([])
+  const [booking, setBooking] = useState([]);
+  const [photos, setPhotos] = useState([]);
+  const [showPhotos, setShowPhotos] = useState(false);
+  const [freelancerPhotos, setFreelancerPhotos] = useState([]);
+
   useEffect(() => {
     const fetchFreelancers = async () => {
       try {
         const response = await axios.get('http://localhost:8500/admin/viewuser');
-        const book=await axios.get('http://localhost:8500/booking')
-        setBooking(book.data)
-        console.log(book.data)
+        const book = await axios.get('http://localhost:8500/booking');
+        const photosRes = await axios.get('http://localhost:8500/viewphotos');
+        
+        setPhotos(photosRes.data);
+        setBooking(book.data);
         setFreelancers(response.data);
       } catch (err) {
         setError('Error fetching freelancers');
@@ -45,17 +51,11 @@ export default function Viewfreelancers() {
 
   const userID = localStorage.getItem('userId');
 
-  // const handleRequest = () => {
-  //   console.log('Project Details:', projectDetails);
-  //   axios.post('http://localhost:8500/addproject',projectDetails, { headers: { id: userId } })
-  //     .then((res) => {
-  //       alert(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  //   handleClose();
-  // };
+  const handleViewWorks = (freelancerId) => {
+    const filteredPhotos = photos.filter(photo => photo.userId === freelancerId);
+    setFreelancerPhotos(filteredPhotos);
+    setShowPhotos(true);
+  };
   const handleRequest = () => {
     const { startDate, endDate, userId } = projectDetails;
   
@@ -90,7 +90,7 @@ export default function Viewfreelancers() {
   
     handleClose();
   };
-  
+
   if (loading) {
     return <div>Loading freelancers...</div>;
   }
@@ -113,12 +113,16 @@ export default function Viewfreelancers() {
                 <Button variant="success" className="mt-2" onClick={() => handleShow(freelancer)}>
                   ADD
                 </Button>
+                <Button variant="info" className="mt-2" onClick={() => handleViewWorks(freelancer._id)}>
+                  View Works
+                </Button>
               </Card.Body>
             </Card>
           </Col>
         ))}
       </Row>
 
+      {/* Project Assignment Modal */}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Assign Project to {selectedFreelancer?.username}</Modal.Title>
@@ -143,6 +147,28 @@ export default function Viewfreelancers() {
           <Button variant="secondary" onClick={handleClose}>Close</Button>
           <Button variant="primary" onClick={handleRequest}>Request</Button>
         </Modal.Footer>
+      </Modal>
+
+      {/* Freelancer Works Modal */}
+      <Modal show={showPhotos} onHide={() => setShowPhotos(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Freelancer Works</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            {freelancerPhotos.length > 0 ? (
+              freelancerPhotos.map((photo, index) => (
+                <Col md={4} key={index} className="mb-3">
+                  <Card>
+                    <Card.Img variant="top" src={`http://localhost:8500/${photo.images}`} alt="Work"  style={{ height: '200px', objectFit: 'contain' }} />
+                  </Card>
+                </Col>
+              ))
+            ) : (
+              <p>No works available for this freelancer.</p>
+            )}
+          </Row>
+        </Modal.Body>
       </Modal>
     </Container>
   );

@@ -1,6 +1,6 @@
 const express=require('express')
-const { register, login, viewProfile, bookproject, viewBooking, viewBookingClient, updatebooking, registerComplaint, booking } = require('../controls/userControl')
-const { updateProfile } = require('../controls/adminControl')
+const { register, login, viewProfile, bookproject, viewBooking, viewBookingClient, updatebooking, registerComplaint, booking, addPhotos, viewPhotoUser, viewPhotos } = require('../controls/userControl')
+
 const multer=require('multer')
 const path=require('path')
 const userRouter=express.Router()
@@ -27,5 +27,7 @@ userRouter.route("/viewbookingclient").get(viewBookingClient)
 userRouter.route("/updatebooking").put(updatebooking)
 userRouter.route("/addComplaints").post(registerComplaint)
 userRouter.route("/booking").get(booking)
-
+userRouter.route("/addphoto").post(uploads.fields([{name:"image",maxCount:1}]),addPhotos)
+userRouter.route("/viewphotosuser").get(viewPhotoUser)
+userRouter.route("/viewphotos").get(viewPhotos)
 module.exports=userRouter

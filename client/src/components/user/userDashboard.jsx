@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Layout, Menu, Typography, Button, Drawer } from 'antd';
 import { Link, Routes, Route } from 'react-router-dom';
-import { HomeOutlined, UserOutlined, TeamOutlined, ProjectOutlined, PlusOutlined, MenuFoldOutlined, MenuUnfoldOutlined, LogoutOutlined, ProfileOutlined } from '@ant-design/icons';
+import { HomeOutlined, UserOutlined, TeamOutlined, ProjectOutlined, PlusOutlined, MenuFoldOutlined, MenuUnfoldOutlined, LogoutOutlined, ProfileOutlined, PicRightOutlined, MoneyCollectFilled } from '@ant-design/icons';
 import './user.css'; 
 import UserProfile from './profile';
 import Viewprojects from './viewprojects';
 import Payment from './payment';
+import AddWork from './addwork';
+import ViewPhotos from './viewphotos';
 
 const { Header, Content, Sider } = Layout;
 const { Title } = Typography;
@@ -28,16 +30,22 @@ function UserDashboard() {
             <Link to="/user">Home</Link>
           </Menu.Item>
          
-          <Menu.Item key="4" icon={<ProjectOutlined />}>
+          <Menu.Item key="2" icon={<ProjectOutlined />}>
             <Link to="/user/viewproject">View Projects</Link>
           </Menu.Item>
-          <Menu.Item key="5" icon={<PlusOutlined />}>
+          <Menu.Item key="3" icon={<PlusOutlined />}>
+            <Link to="/user/addworks">Addworks</Link>
+          </Menu.Item>
+          <Menu.Item key="4" icon={<PicRightOutlined />}>
+            <Link to="/user/viewworks">View Works</Link>
+          </Menu.Item>
+          <Menu.Item key="5" icon={<MoneyCollectFilled />}>
             <Link to="/user/payment">Payment</Link>
           </Menu.Item>
-          <Menu.Item key="5" icon={<ProfileOutlined />}>
+          <Menu.Item key="6" icon={<ProfileOutlined />}>
             <Link to="/user/profile">Profile</Link>
           </Menu.Item>
-          <Menu.Item key="6" icon={<LogoutOutlined />} className="logout-btn">
+          <Menu.Item key="7" icon={<LogoutOutlined />} className="logout-btn">
             <Link to="/">Logout</Link>
           </Menu.Item>
         </Menu>
@@ -60,7 +68,7 @@ function UserDashboard() {
               <Link to="/user/viewproject">View Projects</Link>
             </Menu.Item>
             <Menu.Item key="5" icon={<PlusOutlined />}>
-              <Link to="/user/payment">Add Category</Link>
+              <Link to="/user/payment">Payment</Link>
             </Menu.Item>
             <Menu.Item key="6" icon={<LogoutOutlined />} className="logout-btn">
               <Link to="/">Logout</Link>
@@ -73,6 +81,8 @@ function UserDashboard() {
             <Route path="/profile" element={<UserProfile/>} />
             <Route path="/viewproject" element={<Viewprojects/>} />
             <Route path="/payment" element={<Payment/>}/>
+            <Route path="/addworks" element={<AddWork/>}/>
+            <Route path="/viewworks" element={<ViewPhotos/>}/>
           </Routes>
         </Content>
       </Layout>
