@@ -1,0 +1,142 @@
+/* General Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr 1fr;
+  grid-template-rows: 100px;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoi {
+  font-family: Cambria, serif;
+  font-size: 30px;
+  color: rgb(8, 91, 200);
+}
+
+.naves {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.naves p a {
+  text-decoration: none;
+  color: rgb(14, 107, 206);
+}
+
+.social {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.social p a {
+  text-decoration: none;
+  font-size: 25px;
+  color: rgb(38, 89, 231);
+}
+
+.burger {
+  color: blue;
+  display: none;
+}
+
+/* Mobile Dropdown */
+.dropmove {
+  display: none;
+}
+
+.dropmove.active {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #413c3e;
+  padding: 10px;
+  position: absolute;
+  top: 100px;
+  left: 0;
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: left 0.5s ease-in-out;
+}
+
+.dropmove p a {
+  text-decoration: none;
+  font-size: 15px;
+  color: rgb(38, 89, 231);
+  font-family: Arial;
+}
+
+/* Login Dropdown */
+.login-dropdown {
+  display: none;
+  background-color: #fff;
+  position: absolute;
+  top: 40px;
+  right: 0;
+  width: 150px;
+  padding: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login-dropdown a {
+  text-decoration: none;
+  color: #333;
+  padding: 8px;
+  display: block;
+}
+
+.login-dropdown.active {
+  display: block;
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+  .header {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr;
+    padding: 10px;
+    gap: 10px 10px;
+  }
+
+  .burger {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    font-size: 34px;
+    cursor: pointer;
+  }
+
+  .burger:hover i {
+    color: green;
+  }
+
+  .naves {
+    display: none;
+  }
+
+  .social {
+    display: none;
+  }
+}

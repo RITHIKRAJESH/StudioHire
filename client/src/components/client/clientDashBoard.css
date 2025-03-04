@@ -1,0 +1,37 @@
+/* ClientDashBoard.css */
+.sidebar {
+    background-color: #343a40;
+    height: 100vh;
+    padding-top: 20px;
+  }
+  
+  .sidebar h3 {
+    color: #ffffff;
+  }
+  
+  .sidebar .nav-link {
+    color: #adb5bd;
+    padding: 10px 20px;
+  }
+  
+  .sidebar .nav-link:hover {
+    background-color: #495057;
+  }
+  
+  .sidebar .nav-link.text-danger {
+    color: red;
+  }
+  
+  .main-content {
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  .main-content h1 {
+    font-size: 2rem;
+  }
+  
+  .main-content p {
+    font-size: 1rem;
+  }
+  

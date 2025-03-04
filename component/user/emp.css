@@ -1,0 +1,57 @@
+.box {
+    background-color: #fff;
+    
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    
+    margin-bottom: 10px;
+}
+.nav-box a {
+    color:black; /* Change the color to your desired color */
+    text-decoration: none; /* Remove underline */
+    text-align: center;
+    padding-top: 30px;
+}
+
+.nav-box a:hover {
+    color:white; /* Change the color on hover */
+}
+.flex-column
+{
+    .nav-link {
+        display: block;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        text-align: center;
+        color: white;
+        background-color:cadetblue;/* Background color for the square box */
+        text-decoration: none; /* Remove underline for links */
+    }
+    
+    .nav-link:hover {
+        background-color: #555; /* Change background color on hover */
+    }
+    
+    
+}
+.full-height {
+    height: 100%;
+    background-color: gray;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Optional: Hide overflow to prevent scrolling */
+  }
+  
+  .main-container{
+    background-color:gray;
+    height: 1000px;
+  }
+  
+
+
+

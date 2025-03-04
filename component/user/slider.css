@@ -1,0 +1,46 @@
+/* .im{
+    padding-bottom: 50px;
+    padding-right: 100px;
+    
+
+}
+.txt{
+    color: black;
+    text-align: center;
+    padding-top: 400px;
+    padding-right: 100px;
+}
+.t{
+    color: black;
+} */
+
+
+.login-container {
+    width: 200px; /* Set the width of the container */
+    padding: 750px; /* Add padding around the content */
+    border-radius: 8px; /* Add border radius for rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add box shadow */
+  
+    
+    
+}
+
+.txt {
+     /* Center align the heading */
+    color: black;
+    
+    
+}
+
+.im {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space items evenly */
+    margin-top: 20px; /* Add margin between heading and images */
+    padding-left: 10px;
+
+}
+
+.t {
+    text-align: center; /* Center align the text below images */
+    
+}

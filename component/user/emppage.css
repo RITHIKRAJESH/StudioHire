@@ -1,0 +1,29 @@
+/* .flex-column
+{
+    background-color:blue;
+    height: 800px;
+    width: 300px;
+    margin: 0;
+    font-size: 20px;
+    
+} */
+
+.nv{
+    height: 40px;
+}
+.nm{
+    text-align: center;
+   
+}
+.bg-body-tertiary{
+    height: 60px;
+    background-color: black;
+}
+.nav-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color:cadetblue;
+   
+}

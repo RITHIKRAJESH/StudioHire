@@ -1,0 +1,34 @@
+.cr
+{
+    background-color: gray;
+}
+.hc
+{
+    text-align: center;
+    color: black;
+    font-family:'Times New Roman', Times, serif;
+}
+.ln
+{
+    color:red;
+}
+.hd{
+    padding-top: 50px;
+}
+.h{
+    text-align: center;
+}
+.image{
+
+        background-image: url('fm.jpg'); /* Replace 'path_to_your_image.jpg' with the actual path to your image */
+        background-size: cover;
+        background-repeat: no-repeat;
+        min-height: 100vh;                     
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 50px;
+        padding-top: 100px;
+    }
+

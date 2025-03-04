@@ -1,0 +1,12 @@
+.main-container {
+    background-color: transparent; /* or whatever color you want */
+}
+/* clienthome.css */
+.nav.flex-column {
+    padding: 0; /* Remove padding */
+  }
+  
+  .nav-link {
+    border: none; /* Remove the border */
+  }
+  
