@@ -4,7 +4,9 @@ const User = require('../models/userModel');
 const Project=require('../models/projectModel')
 const Complaint = require('../models/complaintModel'); 
 const Work=require('../models/workModel')
-
+const Equipment = require('../models/equipModel');
+const Booking=require('../models/booking')
+const moment = require('moment');
 // User registration
 const register = async (req, res) => {
     try {
@@ -236,5 +238,58 @@ const viewPhotos=async(req,res)=>{
     const photos=await Work.find()
     res.json(photos)
 }
-module.exports = { viewPhotos,viewPhotoUser,registerComplaint, register, login, viewProfile, bookproject, viewBooking, viewBookingClient, updatebooking, booking,addPhotos };
+
+const bookEquipment = async (req, res) => {
+    try {
+        // Get userId from headers
+        const userId  = req.headers.id;
+        console.log(userId)
+        // Get equipment details from the request body
+        const { equipmentId, startDate, endDate, totalAmount } = req.body;
+        console.log(req.body)  
+
+        // Validate the dates (e.g., no past dates, endDate should be after startDate)
+        if (moment(startDate).isBefore(moment(), 'day') || moment(endDate).isBefore(moment(startDate), 'day')) {
+            console.log('Invalid dates. Start date cannot be in the past, and end date must be after the start date')
+      
+            res.json({ message: 'Invalid dates. Start date cannot be in the past, and end date must be after the start date.' });
+            }
+
+        // Check if equipment exists
+        const equipment = await Equipment.findById(equipmentId);
+        if (!equipment) {
+            return res.json({ message: 'Equipment not found' });
+        }
+
+        // Check if equipment is already booked for the selected dates
+        const existingBooking = await Booking.findOne({
+            equipmentId,
+            $or: [
+                { startDate: { $lte: endDate }, endDate: { $gte: startDate } }, // Overlapping bookings
+            ]
+        });
+
+        if (existingBooking) {
+            return res.json({ message: 'This equipment is already booked for the selected dates.' });
+        }
+
+        // Create a new booking
+        const newBooking = new Booking({
+            equipmentId,
+            userId,
+            startDate,
+            endDate,
+            totalAmount,
+        });
+
+        await newBooking.save();
+
+        return res.status(200).json({ message: 'Booking successfully created', booking: newBooking });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+module.exports = { viewPhotos, viewPhotoUser, registerComplaint, register, login, viewProfile, bookproject, viewBooking, viewBookingClient, updatebooking, booking,addPhotos, bookEquipment};
 

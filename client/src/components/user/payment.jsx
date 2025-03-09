@@ -70,7 +70,7 @@ export default function Payment() {
         onClick={() => updateStatus(project._id, project.userId)}
         disabled={project.status === "Payment Successful"}
     >
-        Mark as Payment Successful
+        Mark as Paid
     </Button>
 </td>
 

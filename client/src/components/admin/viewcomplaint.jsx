@@ -23,13 +23,13 @@ export default function ViewComplaint() {
 
   return (
     <Container className="mt-4">
-      <h3>Complaints</h3>
+      <h1>Feedbacks!!!</h1>
       {error && <div className="alert alert-danger">{error}</div>}
 
       <Row>
         {complaints.length === 0 ? (
           <Col>
-            <p className="text-center">No complaints available.</p>
+            <p className="text-center">No Feedback available.</p>
           </Col>
         ) : (
           complaints.map((complaint) => (

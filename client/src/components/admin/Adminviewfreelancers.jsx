@@ -32,7 +32,7 @@ export default function Adminviewfreelancers() {
       alert(response.data);
       if (response.status === 200) {
         setFreelancers(freelancers.map(freelancer =>
-          freelancer._id === freelancerId ? { ...freelancer, status: 'Verified' } : freelancer
+          freelancer._id === freelancerId ? { ...freelancer, status: 'verified' } : freelancer
         ));
       }
     } catch (err) {
@@ -90,12 +90,12 @@ export default function Adminviewfreelancers() {
               <td>{freelancer.category}</td>
               <td>{freelancer.status}</td>
               <td>
-                {freelancer.status !== 'Verified' && (
+                {freelancer.status !== 'verified' && (
                   <Button variant="success" onClick={() => handleVerify(freelancer._id)}>
                     Verify
                   </Button>
                 )}
-                {freelancer.status === 'Verified' && (
+                {freelancer.status === 'verified' && (
                   <span className="text-success">Verified</span>
                 )}
               </td>

@@ -1,29 +1,28 @@
 const mongoose = require('mongoose');
 
-const equipSchema = new mongoose.Schema({
-    ename: {
+const equipmentSchema = new mongoose.Schema({
+    name: {
         type: String,
-        required: true
-    },
-    rent: {
-        type: Number,
         required: true
     },
     image: {
         type: String,
         required: true
     },
-    description: {
-        type: String,
+    cautionDeposit: {
+        type: Number,
+        required: true
+    },
+    rentPerDay: {
+        type: Number,
         required: true
     },
     status: {
         type: String,
-        required: true,
-        default: 'available'
+        required: true
     }
 });
 
-const Equip = mongoose.model('Equip', equipSchema);
+const Equipment = mongoose.model('Equipment', equipmentSchema);
 
-module.exports = Equip;
+module.exports = Equipment;

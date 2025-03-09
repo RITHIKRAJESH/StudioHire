@@ -4,8 +4,9 @@ import Register from "./components/register"
 import Login from "./components/login"
 import UserDashboard from "./components/user/userDashboard"
 import AdminDashboard from "./components/admin/adminDashboard"
-import ClientDashBoard from "./components/client/clientDashBoard"
+// import ClientDashBoard from "./components/client/clientDashBoard"
 import 'bootstrap/dist/css/bootstrap.min.css';
+import IntruderPage from "./components/admin/IntruderPage"
 
 function App() {
   
@@ -18,7 +19,8 @@ function App() {
       <Route path="/login" element={<Login/>}/>
       <Route path="/user/*" element={<UserDashboard/>}/>
       <Route path="/adminhome/*" element={<AdminDashboard/>}/>
-      <Route path="/client/*" element={<ClientDashBoard/>}/>
+      <Route path="/intruder" element={<IntruderPage/>}/>
+      {/* <Route path="/client/*" element={<ClientDashBoard/>}/> */}
       </Routes>
     </>
   )

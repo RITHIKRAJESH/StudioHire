@@ -25,8 +25,8 @@ const projectSchema = new Schema({
         required: true
     },
     clientId: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
+        type: String,
+        // ref: 'User',
         required: true
     },
     payment:{

@@ -9,7 +9,7 @@ const complaintSchema = new mongoose.Schema({
     },
     freelancerName: {
         type: String,
-        required: true
+        // required: true
     },
     complaint: {
         type: String,
