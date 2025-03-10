@@ -25,18 +25,18 @@ export default function Complaints() {
                 freelancerName,
             },{headers:{id:userId}});
 
-            setMessage(response.data.msg || 'Complaint submitted successfully');
+            setMessage(response.data.msg || 'Feedback submitted successfully');
             setComplaint('');
             setFreelancerName('');
         } catch (err) {
-            console.error('Error submitting complaint', err);
-            setError(err.response?.data?.msg || 'Failed to submit complaint');
+            console.error('Error submitting feedback', err);
+            setError(err.response?.data?.msg || 'Failed to submit feedback');
         }
     };
 
     return (
         <Container className="mt-4" style={{ maxWidth: '600px' }}>
-            <h2 className="mb-3">Submit a Complaint</h2>
+            <h2 className="mb-3">Submit a Feedback</h2>
 
             {/* Success & Error Alerts */}
             {message && <Alert variant="success">{message}</Alert>}

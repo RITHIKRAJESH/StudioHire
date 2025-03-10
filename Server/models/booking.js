@@ -25,7 +25,7 @@ const bookingSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: 'Booked', // You can also have 'Pending', 'Completed', etc.
+        default: 'Booked', 
     }
 });
 

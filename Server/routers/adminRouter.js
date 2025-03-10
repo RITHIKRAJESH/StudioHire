@@ -1,5 +1,5 @@
 const express=require('express')
-const { fectchUsers, fetchClients, verifyClient, deleteUser, viewComplaints, addEquipment, viewEquipments, deleteEquipment, updateEquipment, equipBooking } = require('../controls/adminControl')
+const { fectchUsers, fetchClients, verifyClient, deleteUser, viewComplaints, addEquipment, viewEquipments, deleteEquipment, updateEquipment, equipBooking, updateBookingStatus } = require('../controls/adminControl')
 
 const adminRouter=express.Router()
 
@@ -29,5 +29,6 @@ adminRouter.route('/equipments').get(viewEquipments)
 adminRouter.route('/deleteequipment').delete(deleteEquipment)
 adminRouter.route('/updateequipment').put(uploads.fields([{name:"image",maxCount:1}]),updateEquipment)
 adminRouter.route('/equipmentbooking').get(equipBooking)
+adminRouter.route('/statusbooking').put(updateBookingStatus)
 
 module.exports=adminRouter

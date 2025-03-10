@@ -138,6 +138,46 @@ const equipBooking = async (req, res) => {
     }
   };
   
+  const updateBookingStatus = async (req, res) => {
+    try {
+        const id = req.headers.id; // Get the booking ID from headers
+        const { status } = req.body; // Get the status from the request body
+        
+        console.log(req.body, id); // Log the request body and booking ID
 
-module.exports = { fectchUsers, fetchClients, verifyClient, deleteUser, viewComplaints, addEquipment, viewEquipments, deleteEquipment, updateEquipment,equipBooking};
+        // Find the booking by its ID
+        const booking = await Booking.findById(id);
+
+        if (!booking) {
+            return res.status(404).json({ error: "Booking not found" });
+        }
+
+        // Find the equipment related to this booking
+        const equipment = await Equipment.findById(booking.equipmentId);
+        
+        if (!equipment) {
+            return res.status(404).json({ error: "Equipment not found" });
+        }
+
+        // Update the booking status
+        await Booking.findByIdAndUpdate(id, { status: status });
+
+        // Based on the booking status, update the equipment's availability
+        if (status === "Accepted" || status === "Booked") {
+            // If booking is accepted or still booked, mark the equipment as "Not Available"
+            await Equipment.findByIdAndUpdate(booking.equipmentId, { status: "Not Available" });
+        } else if (status === "Returned" || status === "Cancelled") {
+            // If booking is returned or cancelled, mark the equipment as "Available"
+            await Equipment.findByIdAndUpdate(booking.equipmentId, { status: "Available" });
+        }
+
+        res.json("Booking status and equipment availability updated successfully");
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Failed to update booking status and equipment availability" });
+    }
+};
+
+
+module.exports = { fectchUsers, fetchClients, verifyClient, deleteUser, viewComplaints, addEquipment, viewEquipments, deleteEquipment, updateEquipment,equipBooking, updateBookingStatus};
 
