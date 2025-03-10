@@ -88,9 +88,9 @@ function AdminDashboard() {
             <Menu.Item key="7">
               <Link to="/adminhome/addequipment">Add Equipment</Link>
             </Menu.Item>
-            <Menu.Item key="8">
+            {/* <Menu.Item key="8">
               <Link to="/adminhome/equipmentbooking">Equipment Booking</Link>
-            </Menu.Item>
+            </Menu.Item> */}
           </Menu.SubMenu>
 
           <Menu.Item key="logout" icon={<LogoutOutlined />} className="logout-btn" onClick={handleLogout}>
@@ -151,7 +151,7 @@ function AdminDashboard() {
             <Route path="/history" element={<Viewprojecthistory />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/addequipment" element={<AddEquipments />} />
-            <Route path="/equipmentbooking" element={<EquipmentBooking />} />
+            {/* <Route path="/equipmentbooking" element={<EquipmentBooking />} /> */}
           </Routes>
         </Content>
       </Layout>

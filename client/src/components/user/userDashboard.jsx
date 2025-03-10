@@ -131,15 +131,15 @@ function UserDashboard() {
             <Menu.Item key="3" icon={<ProjectOutlined />}>
               <Link to="/user/viewproject">View Projects</Link>
             </Menu.Item>
-            <Menu.Item key="9" icon={<PicRightOutlined />}>
+            {/* <Menu.Item key="9" icon={<PicRightOutlined />}>
               <Link to="/user/viewequipments">Equipments</Link>
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item key="5" icon={<MoneyCollectFilled />}>
               <Link to="/user/payment">Payment</Link>
             </Menu.Item>
-            <Menu.Item key="10" icon={<PicRightOutlined />}>
+            {/* <Menu.Item key="10" icon={<PicRightOutlined />}>
               <Link to="/user/viewbooking">View Bookings</Link>
-            </Menu.Item> {/* Add ViewBooking here */}
+            </Menu.Item> Add ViewBooking here */}
             <Menu.Item key="6" icon={<LogoutOutlined />} className="logout-btn" onClick={handleLogout}>
               Logout
             </Menu.Item>
@@ -156,8 +156,8 @@ function UserDashboard() {
             <Route path="/addworks" element={<AddWork />} />
             <Route path="/viewworks" element={<ViewPhotos />} />
             <Route path="/addcomplaints" element={<Complaints />} />
-            <Route path="/viewequipments" element={<ViewEquipments />} />
-            <Route path="/viewbooking" element={<ViewBooking />} /> {/* Add ViewBooking route here */}
+            {/* <Route path="/viewequipments" element={<ViewEquipments />} />
+            <Route path="/viewbooking" element={<ViewBooking />} /> Add ViewBooking route here */}
           </Routes>
         </Content>
       </Layout>
