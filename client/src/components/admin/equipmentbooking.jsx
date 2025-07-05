@@ -5,28 +5,23 @@ import { Button, Card, ListGroup, Container, Row, Col, Spinner } from 'react-boo
 export default function EquipmentBooking() {
   const [data, setData] = useState(null);
 
-  // Fetch the equipment booking data on component mount
   useEffect(() => {
     axios.get('http://localhost:8500/admin/equipmentbooking')
       .then((res) => {
         setData(res.data);
-        console.log(res.data); // Optionally log the fetched data
+        console.log(res.data); 
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
-
-  // Format date to dd/mm/yy
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-GB'); // Format in dd/mm/yyyy format
+    return date.toLocaleDateString('en-GB'); 
   };
-
-  // Handle "Accept" button click
   const handleAcceptBooking = (bookingId) => {
     axios.put(`http://localhost:8500/admin/statusbooking`, { status: "Accepted" }, { headers: { id: bookingId } })
       .then((res) => {
         alert('Booking request accepted!');
-        setData(prevData => prevData.filter(item => item.bookingId !== bookingId)); // Optionally remove accepted booking from UI
+        setData(prevData => prevData.filter(item => item.bookingId !== bookingId)); 
       })
       .catch(error => {
         console.error('Error accepting booking:', error);
@@ -34,12 +29,11 @@ export default function EquipmentBooking() {
       });
   };
 
-  // Handle "Cancel" button click
   const handleCancelBooking = (bookingId) => {
     axios.put(`http://localhost:8500/admin/statusbooking/`, { status: "Cancelled" }, { headers: { id: bookingId } })
       .then((res) => {
         alert('Booking request canceled!');
-        setData(prevData => prevData.filter(item => item.bookingId !== bookingId)); // Optionally remove canceled booking from UI
+        setData(prevData => prevData.filter(item => item.bookingId !== bookingId)); 
       })
       .catch(error => {
         console.error('Error canceling booking:', error);
@@ -47,14 +41,13 @@ export default function EquipmentBooking() {
       });
   };
 
-  // Handle "Return" button click
   const handleReturnBooking = (bookingId) => {
     axios.put(`http://localhost:8500/admin/statusbooking`, { status: "Returned" }, { headers: { id: bookingId } })
       .then((res) => {
         alert('Booking status updated to Returned!');
         setData(prevData => prevData.map(item => 
           item.bookingId === bookingId ? { ...item, status: 'Returned' } : item
-        )); // Update the status in the UI
+        )); 
       })
       .catch(error => {
         console.error('Error returning booking:', error);
@@ -65,15 +58,12 @@ export default function EquipmentBooking() {
   return (
     <Container>
       <h2 className="my-4">Equipment Booking Information</h2>
-      
-      {/* If data is loading */}
       {data === null ? (
         <div className="d-flex justify-content-center">
           <Spinner animation="border" variant="primary" />
         </div>
       ) : (
         <Row>
-          {/* Render booking information, excluding bookings where status is 'Returned' */}
           {data.filter(item => item.status !== "Returned").map((item, index) => (
             <Col md={4} key={index} className="mb-4">
               <Card>
@@ -86,7 +76,6 @@ export default function EquipmentBooking() {
                     <ListGroup.Item><strong>Total Amount:</strong> {item.totalAmount}</ListGroup.Item>
                     <ListGroup.Item><strong>Status:</strong> {item.status}</ListGroup.Item>
                   </ListGroup>
-                  {/* Show "Accept Request" button only if status is 'Booked' */}
                   {item.status === "Booked" && (
                     <Button 
                       variant="success" 
@@ -96,8 +85,7 @@ export default function EquipmentBooking() {
                       Accept Request
                     </Button>
                   )}
-                  {/* Show "Return Request" button only if status is 'Accepted' */}
-                  {item.status === "Accepted" && (
+                  {item.status === "Accepted" || item.status ==="Payment Successful" && (
                     <Button 
                       variant="info" 
                       className="mt-3 me-2" 

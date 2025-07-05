@@ -1,72 +1,95 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Form, Button, Spinner, Alert, Card } from 'react-bootstrap';
+import { Container, Row, Col, Button, Spinner, Alert, Card, Modal, Form } from 'react-bootstrap';
 
 export default function ViewBooking() {
-  const [bookings, setBookings] = useState([]); // To store bookings
-  const [userId, setUserId] = useState(''); // State to store the userId filter
-  const [loading, setLoading] = useState(false); // For loading state
-  const [error, setError] = useState(null); // For handling errors
-
-  // Fetch bookings from the server
+  const [bookings, setBookings] = useState([]);
+  const [userId, setUserId] = useState(''); 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [paymentLoading, setPaymentLoading] = useState(false);
+  const [paymentError, setPaymentError] = useState(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [accountNumber, setAccountNumber] = useState('');
+  const [cvc, setCvc] = useState('');
+  const [amount, setAmount] = useState('');
+  const [errors, setErrors] = useState({
+    accountNumber: '',
+    cvc: '',
+    amount: '',
+  });
   const fetchBookings = async () => {
     if (!userId) {
-      return; // If userId is empty, do nothing
+      return; 
     }
 
-    setLoading(true); // Set loading state to true
+    setLoading(true);
 
     try {
-      const response = await axios.get('http://localhost:8500/admin/equipmentbooking', {
-        params: { userId } // Pass userId as query parameter
-      });
-      setBookings(response.data); // Update the bookings state
-      setLoading(false); // Set loading state to false
+      const response = await axios.get('http://localhost:8500/admin/equipmentbooking');
+      const data = response.data;
+      const user = data.filter((item) => item.userId._id === userId);
+      setBookings(user); 
+      setLoading(false); 
     } catch (err) {
-      setError('Error fetching bookings'); // Handle errors
-      setLoading(false); // Set loading state to false
-      console.error(err);
+      setError('Error fetching bookings');
+      setLoading(false);
     }
   };
 
-  // Effect hook to fetch userId from localStorage and bookings when component mounts
   useEffect(() => {
-    // Get userId from localStorage
     const storedUserId = localStorage.getItem('userId');
     if (storedUserId) {
-      setUserId(storedUserId); // Set userId to state from localStorage
+      setUserId(storedUserId);
     }
   }, []);
 
-  // Effect hook to fetch bookings whenever userId changes
   useEffect(() => {
     if (userId) {
       fetchBookings();
     }
   }, [userId]);
+  const handlePayment = async () => {
+    const formErrors = {};
+    if (!accountNumber) formErrors.accountNumber = 'Account Number is required';
+    if (!cvc) formErrors.cvc = 'CVC is required';
+    if (!amount) formErrors.amount = 'Amount is required';
+    setErrors(formErrors);
+
+    if (Object.keys(formErrors).length > 0) return; 
+
+    setPaymentLoading(true);
+    setPaymentError(null);
+
+    try {
+      const paymentResponse = await axios.put(`http://localhost:8500/admin/statusbooking/`, 
+        { status: "Payment Successful" }, 
+        { headers: { id: selectedBooking._id } }
+      );
+
+      if (paymentResponse.status === 200) {
+        alert('Payment Successful!');
+        setShowPaymentModal(false);
+        fetchBookings();
+      } else {
+        setPaymentError('Payment failed. Please try again.');
+      }
+
+      setPaymentLoading(false);
+    } catch (err) {
+      setPaymentError('Error processing payment. Please try again.');
+      setPaymentLoading(false);
+    }
+  };
 
   return (
     <Container>
       <h2 className="my-4">View Bookings</h2>
 
-      {/* Input field to filter by userId */}
-      <Form.Group controlId="userIdInput" className="mb-3">
-        {/* <Form.Label>Enter User ID</Form.Label>
-        <Form.Control
-          type="text"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-          placeholder="Enter User ID"
-        /> */}
-      </Form.Group>
-
-      {/* If the component is loading, show a loading spinner */}
       {loading && <Spinner animation="border" variant="primary" />}
-
-      {/* If there's an error, show an error message */}
       {error && <Alert variant="danger">{error}</Alert>}
 
-      {/* Display bookings */}
       <Row>
         {bookings.length > 0 ? (
           bookings.map((booking, index) => (
@@ -86,6 +109,19 @@ export default function ViewBooking() {
                   <Card.Text>
                     <strong>Booking Dates: </strong> {booking.startDate} to {booking.endDate}
                   </Card.Text>
+                  {booking.status === 'Accepted' && (
+                    <Button
+                      variant="success"
+                      onClick={() => {
+                        setSelectedBooking(booking); 
+                        setAmount(booking.totalAmount); 
+                        setShowPaymentModal(true);
+                        console.log(booking.totalAmount)
+                      }}
+                    >
+                      Pay Now
+                    </Button>
+                  )}
                 </Card.Body>
               </Card>
             </Col>
@@ -96,6 +132,66 @@ export default function ViewBooking() {
           </Col>
         )}
       </Row>
+
+      {/* Payment Modal */}
+      <Modal show={showPaymentModal} onHide={() => setShowPaymentModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Payment Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="accountNumber">
+              <Form.Label>Account Number</Form.Label>
+              <Form.Control
+                type="text"
+                value={accountNumber}
+                onChange={(e) => setAccountNumber(e.target.value)}
+                isInvalid={!!errors.accountNumber}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.accountNumber}
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group controlId="cvc">
+              <Form.Label>CVC</Form.Label>
+              <Form.Control
+                type="text"
+                value={cvc}
+                onChange={(e) => setCvc(e.target.value)}
+                isInvalid={!!errors.cvc}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.cvc}
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group controlId="amount">
+              <Form.Label>Amount</Form.Label>
+              <Form.Control
+                type="text"
+                value={amount}
+                readOnly
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.amount}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowPaymentModal(false)}>
+            Close
+          </Button>
+          <Button
+            variant="primary"
+            onClick={handlePayment}
+            disabled={paymentLoading}
+          >
+            {paymentLoading ? 'Processing Payment...' : 'Submit Payment'}
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }

@@ -12,7 +12,6 @@ export default function ViewprojectClient() {
     const fetchProjects = async () => {
       try {
         const response = await axios.get('http://localhost:8500/viewbookingclient', { headers: { id: id } });
-
         setProjects(response.data);
       } catch (err) {
         setError('Failed to fetch projects');

@@ -1,5 +1,5 @@
 const express=require('express')
-const { register, login, viewProfile, bookproject, viewBooking, viewBookingClient, updatebooking, registerComplaint, booking, addPhotos, viewPhotoUser, viewPhotos, bookEquipment } = require('../controls/userControl')
+const { register, login, viewProfile, bookproject, viewBooking, viewBookingClient, updatebooking, registerComplaint, booking, addPhotos, viewPhotoUser, viewPhotos, bookEquipment, forgetPassword, updatePassword } = require('../controls/userControl')
 
 const multer=require('multer')
 const path=require('path')
@@ -31,5 +31,7 @@ userRouter.route("/addphoto").post(uploads.fields([{name:"image",maxCount:1}]),a
 userRouter.route("/viewphotosuser").get(viewPhotoUser)
 userRouter.route("/viewphotos").get(viewPhotos)
 userRouter.route("/bookequipment").post(bookEquipment)
+userRouter.route("/forgot-password").post(forgetPassword)
+userRouter.route("/update-password").put(updatePassword)
 
 module.exports=userRouter

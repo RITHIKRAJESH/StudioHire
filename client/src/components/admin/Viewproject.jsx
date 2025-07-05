@@ -71,7 +71,7 @@ export default function Viewproject() {
   if (loading) {
     return <div>Loading freelancers...</div>;
   }
-
+  const today = new Date().toISOString().split("T")[0];
   return (
     <Container>
       <h3 className="mb-4">Freelancers</h3>
@@ -123,11 +123,11 @@ export default function Viewproject() {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Start Date</Form.Label>
-              <Form.Control type="date" name="startDate" value={projectDetails.startDate} onChange={(e) => setProjectDetails({ ...projectDetails, startDate: e.target.value })} required />
+              <Form.Control type="date" name="startDate" value={projectDetails.startDate} onChange={(e) => setProjectDetails({ ...projectDetails, startDate: e.target.value })} required min={projectDetails.startDate || today} />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>End Date</Form.Label>
-              <Form.Control type="date" name="endDate" value={projectDetails.endDate} onChange={(e) => setProjectDetails({ ...projectDetails, endDate: e.target.value })} required />
+              <Form.Control type="date" name="endDate" value={projectDetails.endDate} onChange={(e) => setProjectDetails({ ...projectDetails, endDate: e.target.value })} required   min={projectDetails.endDate || today} />
             </Form.Group>
           </Form>
         </Modal.Body>

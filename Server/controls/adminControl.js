@@ -2,6 +2,7 @@ const User=require('../models/userModel')
 const Complaint = require('../models/complaintModel'); 
 const Equipment = require('../models/equipModel');
 const Booking=require('../models/booking')
+const Project=require('../models/projectModel')
 const multer = require('multer');
 const path = require('path');
 
@@ -42,7 +43,8 @@ const deleteUser=async(req,res)=>{
     try{
         const id=req.headers._id
         console.log(id)
-        await User.findByIdAndDelete({_id:id})     
+        await User.findByIdAndDelete({_id:id}) 
+        await Project.findByIdAndDelete({userId:id}) 
         res.json("Deleted Successfully")
     }catch(err){
         console.log(err)
